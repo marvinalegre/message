@@ -1,9 +1,17 @@
 {
   "scripts": {
-    "dev": "php -S localhost:8000 -t public"
+    "dev": "php -S localhost:8000 -t public",
+    "migration:create": "tsx scripts/migrate.ts create",
+    "migration:up": "tsx scripts/migrate.ts up",
+    "migration:down": "tsx scripts/migrate.ts down",
+    "migration:status": "tsx scripts/migrate.ts status",
+    "migration:reset": "tsx scripts/migrate.ts reset",
+    "migration:fresh": "tsx scripts/migrate.ts fresh"
   },
   "devDependencies": {
+    "@prettier/plugin-php": "^0.25.0",
+    "better-sqlite3": "^13.0.3",
     "prettier": "^3.9.7",
-    "@prettier/plugin-php": "^0.25.0"
+    "tsx": "^4.23.13"
   }
 }

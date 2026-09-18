@@ -4,3 +4,4 @@
 /.php-cs-fixer.php
 
 node_modules/
+data/
