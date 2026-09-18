@@ -1,18 +1,7 @@
 <?php
-$title = "PHP Test";
-?>
 
-<!DOCTYPE html>
-<html lang="en">
-<head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title><?= $title ?></title>
-</head>
-<body>
-    <main>
-	<h1><?= $title ?></h1>
-        <p>PHP is working.</p>
-    </main>
-</body>
-</html>
+require __DIR__ . "/../src/db.php";
+
+$db = db();
+
+echo "DB works";
