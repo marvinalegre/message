@@ -1,6 +1,9 @@
 {
-	"devDependencies": {
-		"prettier": "^3.9.7",
-		"@prettier/plugin-php": "^0.25.0"
-	}
+  "scripts": {
+    "dev": "php -S localhost:8000 -t public"
+  },
+  "devDependencies": {
+    "prettier": "^3.9.7",
+    "@prettier/plugin-php": "^0.25.0"
+  }
 }
