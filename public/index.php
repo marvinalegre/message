@@ -48,7 +48,7 @@ if ($path === "/login" && $_SERVER["REQUEST_METHOD"] === "POST") {
     exit();
 }
 
-if ($path === "/logout") {
+if ($path === "/logout" && $_SERVER["REQUEST_METHOD"] === "POST") {
     session_unset();
     session_destroy();
 
@@ -56,9 +56,26 @@ if ($path === "/logout") {
     exit();
 }
 
+if ($path === "/messages") {
+    require_auth();
+
+    if ($_SESSION["user_id"] !== 1) {
+        header("Location: /");
+        exit();
+    }
+
+    echo '<form method="POST" action="/logout">';
+    echo "<button>Log out</button>";
+    echo "</form>";
+
+    exit();
+}
+
 if ($path === "/") {
-    if (!isset($_SESSION["user_id"])) {
-        header("Location: /login");
+    require_auth();
+
+    if ($_SESSION["user_id"] === 1) {
+        header("Location: /messages");
         exit();
     }
 

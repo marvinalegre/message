@@ -30,3 +30,11 @@ function login(PDO $db, string $username, string $password): bool
 
     return true;
 }
+
+function require_auth()
+{
+    if (!isset($_SESSION["user_id"])) {
+        header("Location: /login");
+        exit();
+    }
+}
