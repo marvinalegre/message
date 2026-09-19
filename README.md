@@ -1,15 +1,13 @@
 # Message
 
-A simple personal messaging app built with native PHP.
-
-Live at: **message.marvinalegre.dev**
+A tiny personal messaging app built with native PHP.
 
 ## Stack
 
 - PHP
 - SQLite
-- Composer
 - PHP sessions
+- Pico CSS
 - Cloudflare Tunnel
 
 ## Features
@@ -18,14 +16,16 @@ Live at: **message.marvinalegre.dev**
 - User login
 - Session-based authentication
 - Logout
-- Basic messaging
+- User-to-user messaging
+- Conversation view
+- Message timestamps
+- Automatic cleanup of old messages
 
 ## Development
 
 ```bash
 git clone <repo-url>
 cd message
-composer install
 php -S localhost:8000 -t public
 ```
 
@@ -45,8 +45,11 @@ src/
 ├── auth.php
 ├── db.php
 └── signup.php
+
+data/
+└── database.sqlite
 ```
 
-## Status
+## Deployment
 
-Work in progress.
+Production runs behind **nginx** and a **Cloudflare Tunnel**.
