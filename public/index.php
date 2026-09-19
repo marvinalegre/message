@@ -59,35 +59,238 @@ if ($path === "/logout" && $_SERVER["REQUEST_METHOD"] === "POST") {
 if ($path === "/messages") {
     require_auth();
 
-    if ($_SESSION["user_id"] !== 1) {
-        header("Location: /");
+    if ($_SERVER["REQUEST_METHOD"] === "GET") {
+        if ($_SESSION["user_id"] !== 1) {
+            header("Location: /");
+            exit();
+        }
+
+        $stmt = $db->query("
+        SELECT
+            u.id,
+            u.username,
+            m.body,
+            m.created_at
+        FROM users u
+        JOIN messages m ON m.id = (
+            SELECT id
+            FROM messages
+            WHERE sender_id = u.id
+               OR recipient_id = u.id
+            ORDER BY created_at DESC
+            LIMIT 1
+        )
+        WHERE u.id != 1
+        ORDER BY m.created_at DESC
+    ");
+
+        $conversations = $stmt->fetchAll(PDO::FETCH_ASSOC);
+
+        echo "<h1>Messages</h1>";
+
+        foreach ($conversations as $conversation) {
+            echo "<p>";
+            echo '<a href="/messages/' . (int) $conversation["id"] . '">';
+            echo htmlspecialchars($conversation["username"]);
+            echo "</a><br>";
+            echo htmlspecialchars($conversation["body"]);
+            echo "</p>";
+        }
+
+        echo '
+        <form method="POST" action="/logout">
+            <button>Log out</button>
+        </form>
+    ';
+
         exit();
     }
 
-    echo '<form method="POST" action="/logout">';
-    echo "<button>Log out</button>";
-    echo "</form>";
+    if ($_SERVER["REQUEST_METHOD"] === "POST") {
+        $sender_id = $_SESSION["user_id"];
 
-    exit();
+        if ($sender_id === 1) {
+            http_response_code(403);
+            exit("Admin cannot send messages here.");
+        }
+
+        $body = trim($_POST["body"] ?? "");
+
+        if ($body === "") {
+            http_response_code(400);
+            exit("Message cannot be empty.");
+        }
+
+        $stmt = $db->prepare("
+        INSERT INTO messages (sender_id, recipient_id, body)
+        VALUES (:sender_id, 1, :body)
+    ");
+
+        $stmt->execute([
+            "sender_id" => $sender_id,
+            "body" => $body,
+        ]);
+
+        header("Location: /");
+        exit();
+    }
 }
 
 if ($path === "/") {
     require_auth();
 
-    if ($_SESSION["user_id"] === 1) {
+    $user_id = $_SESSION["user_id"];
+
+    if ($user_id === 1) {
         header("Location: /messages");
         exit();
     }
 
-    $stmt = $db->prepare("SELECT username FROM users WHERE id = ?");
-    $stmt->execute([$_SESSION["user_id"]]);
+    $stmt = $db->prepare("
+        SELECT
+            m.body,
+            m.created_at,
+            u.username
+        FROM messages m
+        JOIN users u ON u.id = m.sender_id
+        WHERE
+            (m.sender_id = :user_id AND m.recipient_id = 1)
+            OR
+            (m.sender_id = 1 AND m.recipient_id = :user_id)
+        ORDER BY m.created_at ASC
+    ");
 
-    $username = $stmt->fetchColumn();
+    $stmt->execute([
+        "user_id" => $user_id,
+    ]);
 
-    echo "<h1>Hello, " . htmlspecialchars($username) . "</h1>";
-    echo '<form method="POST" action="/logout">';
-    echo "<button>Log out</button>";
-    echo "</form>";
+    $messages = $stmt->fetchAll(PDO::FETCH_ASSOC);
+
+    echo "<h1>Messages</h1>";
+
+    foreach ($messages as $message) {
+        echo "<p>";
+        echo "<strong>" .
+            htmlspecialchars($message["username"]) .
+            ":</strong> ";
+        echo htmlspecialchars($message["body"]);
+        echo "</p>";
+    }
+
+    echo '
+        <form method="POST" action="/messages">
+            <textarea name="body" required></textarea>
+            <button type="submit">Send</button>
+        </form>
+
+        <form method="POST" action="/logout">
+            <button>Log out</button>
+        </form>
+    ';
+
+    exit();
+}
+
+if (
+    preg_match('#^/messages/(\d+)$#', $path, $matches) &&
+    $_SERVER["REQUEST_METHOD"] === "POST"
+) {
+    require_auth();
+
+    if ($_SESSION["user_id"] !== 1) {
+        header("Location: /");
+        exit();
+    }
+
+    $user_id = (int) $matches[1];
+    $body = trim($_POST["body"] ?? "");
+
+    if ($body === "") {
+        http_response_code(400);
+        exit("Message cannot be empty.");
+    }
+
+    $stmt = $db->prepare("
+        INSERT INTO messages (sender_id, recipient_id, body)
+        VALUES (1, :recipient_id, :body)
+    ");
+
+    $stmt->execute([
+        "recipient_id" => $user_id,
+        "body" => $body,
+    ]);
+
+    header("Location: /messages/" . $user_id);
+    exit();
+}
+
+if (preg_match('#^/messages/(\d+)$#', $path, $matches)) {
+    require_auth();
+
+    if ($_SESSION["user_id"] !== 1) {
+        header("Location: /");
+        exit();
+    }
+
+    $user_id = (int) $matches[1];
+
+    if ($user_id === 1) {
+        http_response_code(404);
+        exit("Conversation not found.");
+    }
+
+    $stmt = $db->prepare("
+        SELECT username
+        FROM users
+        WHERE id = :id
+    ");
+
+    $stmt->execute(["id" => $user_id]);
+    $user = $stmt->fetch(PDO::FETCH_ASSOC);
+
+    if (!$user) {
+        http_response_code(404);
+        exit("User not found.");
+    }
+
+    $stmt = $db->prepare("
+        SELECT
+            m.body,
+            m.created_at,
+            u.username
+        FROM messages m
+        JOIN users u ON u.id = m.sender_id
+        WHERE
+            (m.sender_id = 1 AND m.recipient_id = :user_id)
+            OR
+            (m.sender_id = :user_id AND m.recipient_id = 1)
+        ORDER BY m.created_at ASC
+    ");
+
+    $stmt->execute(["user_id" => $user_id]);
+    $messages = $stmt->fetchAll(PDO::FETCH_ASSOC);
+
+    echo "<h1>Conversation with " .
+        htmlspecialchars($user["username"]) .
+        "</h1>";
+
+    foreach ($messages as $message) {
+        echo "<p>";
+        echo "<strong>" .
+            htmlspecialchars($message["username"]) .
+            ":</strong> ";
+        echo htmlspecialchars($message["body"]);
+        echo "</p>";
+    }
+
+    echo '
+        <form method="POST">
+            <textarea name="body" required></textarea>
+            <button type="submit">Send</button>
+        </form>
+
+        <p><a href="/messages">Back</a></p>
+    ';
 
     exit();
 }
