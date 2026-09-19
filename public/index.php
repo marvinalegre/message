@@ -20,10 +20,12 @@ if ($path === "/signup") {
 if ($path === "/login" && $_SERVER["REQUEST_METHOD"] === "GET") {
     require __DIR__ . "/../views/header.php";
     echo '<form method="POST">
-        <input name="username" required>
-        <input name="password" type="password" required>
+        <input name="username" required placeholder="username">
+        <input name="password" type="password" required placeholder="password">
         <button>Log in</button>
-    </form>';
+    </form>
+    <a href="/signup">sign up</a>
+    ';
     require __DIR__ . "/../views/footer.php";
     exit();
 }

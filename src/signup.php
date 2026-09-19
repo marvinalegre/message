@@ -2,10 +2,11 @@
 <?php
 if ($_SERVER["REQUEST_METHOD"] === "GET") { ?>
     <form method="POST">
-        <input name="username" required>
-        <input name="password" type="password" required>
+        <input name="username" required placeholder="username">
+        <input name="password" type="password" required placeholder="password">
         <button>Sign up</button>
     </form>
+    <a href="/login">log in</a>
 <?php exit();
 }
 
