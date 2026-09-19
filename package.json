@@ -1,6 +1,7 @@
 {
   "scripts": {
     "dev": "php -S localhost:8000 -t public",
+    "deploy": "sudo rsync -av --exclude node_modules --exclude .git ./ /var/www/message/ && sudo chown -R marvin:www-data /var/www/message",
     "migration:create": "tsx scripts/migrate.ts create",
     "migration:up": "tsx scripts/migrate.ts up",
     "migration:down": "tsx scripts/migrate.ts down",
