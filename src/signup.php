@@ -1,29 +1,10 @@
-
 <?php
-if ($_SERVER["REQUEST_METHOD"] === "GET") { ?>
-    <main class="container">
-    <h1>Sign up</h1>
 
-    <form method="POST" class="auth-form">
-      <label>
-        Username
-        <input name="username" required>
-      </label>
-
-      <label>
-        Password
-        <input name="password" type="password" required>
-      </label>
-
-        <button>Sign up</button>
-    </form>
-
-    <p>
-      Already have an account?
-      <a href="/login">Log in</a>
-    </p>
-    </main>
-<?php exit();
+if ($_SERVER["REQUEST_METHOD"] === "GET") {
+    require __DIR__ . "/../views/header.php";
+    require __DIR__ . "/../views/signup.html";
+    require __DIR__ . "/../views/footer.php";
+    exit();
 }
 
 if ($_SERVER["REQUEST_METHOD"] === "POST") {
@@ -35,6 +16,7 @@ if ($_SERVER["REQUEST_METHOD"] === "POST") {
         exit();
     }
 
+    $db = db();
     $stmt = $db->prepare(
         "INSERT INTO users (username, password_hash) VALUES (?, ?)",
     );

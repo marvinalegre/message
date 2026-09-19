@@ -14,9 +14,7 @@ $db = db();
 $path = parse_url($_SERVER["REQUEST_URI"], PHP_URL_PATH);
 
 if ($path === "/signup") {
-    require __DIR__ . "/../views/header.php";
     require __DIR__ . "/../src/signup.php";
-    require __DIR__ . "/../views/footer.php";
     exit();
 }
 
