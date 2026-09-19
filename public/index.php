@@ -119,22 +119,31 @@ if ($path === "/messages") {
         $conversations = $stmt->fetchAll(PDO::FETCH_ASSOC);
 
         require __DIR__ . "/../views/header.php";
-        echo "<h1>Messages</h1>";
+
+        echo "<main class='container'>";
+
+        echo '<header><h1>Messages</h1>
+    <form method="POST" action="/logout">
+        <button class="secondary">Log out</button>
+    </form></header>
+        ';
 
         foreach ($conversations as $conversation) {
-            echo "<p>";
-            echo '<a href="/messages/' . (int) $conversation["id"] . '">';
+            echo "<article>";
+            echo '<h3><a href="/messages/' . (int) $conversation["id"] . '">';
             echo htmlspecialchars($conversation["username"]);
-            echo "</a><br>";
+            echo "</a></h3>";
+            echo "<p>";
             echo htmlspecialchars($conversation["body"]);
             echo "</p>";
+            echo "</article>";
         }
 
         echo '
-        <form method="POST" action="/logout">
-            <button>Log out</button>
-        </form>
-    ';
+';
+
+        echo "</main>";
+
         require __DIR__ . "/../views/footer.php";
 
         exit();
@@ -184,6 +193,7 @@ if ($path === "/") {
         SELECT
             m.body,
             m.created_at,
+            m.sender_id,
             u.username
         FROM messages m
         JOIN users u ON u.id = m.sender_id
@@ -201,27 +211,34 @@ if ($path === "/") {
     $messages = $stmt->fetchAll(PDO::FETCH_ASSOC);
 
     require __DIR__ . "/../views/header.php";
-    echo "<h1>Messages</h1>";
+    echo "<main class='container'>";
+    echo '<header><h1>Messages</h1>
+    <form method="POST" action="/logout">
+        <button class="secondary">Log out</button>
+    </form></header>
+    ';
 
     foreach ($messages as $message) {
-        echo "<p>";
-        echo "<strong>" .
-            htmlspecialchars($message["username"]) .
-            ":</strong> ";
-        echo htmlspecialchars($message["body"]);
-        echo "</p>";
+        $class =
+            $message["sender_id"] === $_SESSION["user_id"]
+                ? "message mine"
+                : "message";
+
+        echo "<article class='$class'>";
+        echo "<strong>" . htmlspecialchars($message["username"]) . "</strong>";
+        echo "<p>" . htmlspecialchars($message["body"]) . "</p>";
+        echo "</article>";
     }
 
     echo '
-        <form method="POST" action="/messages">
-            <textarea name="body" required></textarea>
-            <button type="submit">Send</button>
-        </form>
+    <form method="POST" action="/messages">
+        <textarea name="body" required></textarea>
+        <button type="submit">Send</button>
+    </form>
 
-        <form method="POST" action="/logout">
-            <button>Log out</button>
-        </form>
-    ';
+';
+
+    echo "</main>";
     require __DIR__ . "/../views/footer.php";
 
     exit();
@@ -293,6 +310,7 @@ if (preg_match('#^/messages/(\d+)$#', $path, $matches)) {
         SELECT
             m.body,
             m.created_at,
+            m.sender_id,
             u.username
         FROM messages m
         JOIN users u ON u.id = m.sender_id
@@ -307,27 +325,38 @@ if (preg_match('#^/messages/(\d+)$#', $path, $matches)) {
     $messages = $stmt->fetchAll(PDO::FETCH_ASSOC);
 
     require __DIR__ . "/../views/header.php";
-    echo "<h1>Conversation with " .
+
+    echo "<main class='container'>";
+
+    echo '
+<header>
+    <h1>Conversation with ' .
         htmlspecialchars($user["username"]) .
-        "</h1>";
+        '</h1>
+    <a href="/messages" role="button" class="secondary">Back</a>
+</header>
+';
 
     foreach ($messages as $message) {
-        echo "<p>";
-        echo "<strong>" .
-            htmlspecialchars($message["username"]) .
-            ":</strong> ";
-        echo htmlspecialchars($message["body"]);
-        echo "</p>";
+        $class =
+            $message["sender_id"] === $_SESSION["user_id"]
+                ? "message mine"
+                : "message";
+
+        echo "<article class='$class'>";
+        echo "<strong>" . htmlspecialchars($message["username"]) . "</strong>";
+        echo "<p>" . htmlspecialchars($message["body"]) . "</p>";
+        echo "</article>";
     }
 
     echo '
-        <form method="POST">
-            <textarea name="body" required></textarea>
-            <button type="submit">Send</button>
-        </form>
+    <form method="POST">
+        <textarea name="body" required></textarea>
+        <button type="submit">Send</button>
+    </form>';
 
-        <p><a href="/messages">Back</a></p>
-    ';
+    echo "</main>";
+
     require __DIR__ . "/../views/footer.php";
 
     exit();

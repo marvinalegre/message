@@ -1,13 +1,38 @@
-main {
-  margin: 1rem 0;
+.container {
+  margin: 1rem auto;
 }
+
 .auth-form {
   max-width: 400px;
   margin-bottom: 1.5rem;
 }
 
+.message {
+  width: fit-content;
+  max-width: 75%;
+  margin-bottom: 1rem;
+}
+
+.message.mine {
+  margin-left: auto;
+  text-align: right;
+}
+
+header {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+
+  margin-bottom: 1.5rem;
+}
+
+header h1 {
+  margin: 0;
+}
+
 @media (min-width: 768px) {
-  main {
-    margin: 3rem 0;
+  .container {
+    margin: 3rem auto;
+    max-width: 600px;
   }
 }
