@@ -24,11 +24,12 @@ if ($_SERVER["REQUEST_METHOD"] === "POST") {
     try {
         $stmt->execute([$username, password_hash($password, PASSWORD_DEFAULT)]);
 
-        header("Location: /login");
+        header("FX-Redirect: /login");
+        http_response_code(200);
         exit();
     } catch (PDOException $e) {
         if ($e->getCode() === "23000") {
-            echo "Username already exists";
+            echo '<small id="server-message">Username already exists</small>';
             exit();
         }
 
