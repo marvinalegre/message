@@ -11,23 +11,29 @@ $db = db();
 $path = parse_url($_SERVER["REQUEST_URI"], PHP_URL_PATH);
 
 if ($path === "/signup") {
+    require __DIR__ . "/../views/header.php";
     require __DIR__ . "/../src/signup.php";
+    require __DIR__ . "/../views/footer.php";
     exit();
 }
 
-if ($path === "/login" && $_SERVER["REQUEST_METHOD"] === "GET") { ?>
-    <form method="POST">
+if ($path === "/login" && $_SERVER["REQUEST_METHOD"] === "GET") {
+    require __DIR__ . "/../views/header.php";
+    echo '<form method="POST">
         <input name="username" required>
         <input name="password" type="password" required>
         <button>Log in</button>
-    </form>
-    <?php exit();
+    </form>';
+    require __DIR__ . "/../views/footer.php";
+    exit();
 }
 
 if ($path === "/login" && $_SERVER["REQUEST_METHOD"] === "POST") {
     if (!rate_limit($db, "login:" . $_SERVER["REMOTE_ADDR"], 5, 60)) {
         http_response_code(429);
+        require __DIR__ . "/../views/header.php";
         echo "Too many requests";
+        require __DIR__ . "/../views/footer.php";
         exit();
     }
 
@@ -44,7 +50,9 @@ if ($path === "/login" && $_SERVER["REQUEST_METHOD"] === "POST") {
         exit();
     }
 
+    require __DIR__ . "/../views/header.php";
     echo "Invalid username or password";
+    require __DIR__ . "/../views/footer.php";
     exit();
 }
 
@@ -86,6 +94,7 @@ if ($path === "/messages") {
 
         $conversations = $stmt->fetchAll(PDO::FETCH_ASSOC);
 
+        require __DIR__ . "/../views/header.php";
         echo "<h1>Messages</h1>";
 
         foreach ($conversations as $conversation) {
@@ -102,6 +111,7 @@ if ($path === "/messages") {
             <button>Log out</button>
         </form>
     ';
+        require __DIR__ . "/../views/footer.php";
 
         exit();
     }
@@ -166,6 +176,7 @@ if ($path === "/") {
 
     $messages = $stmt->fetchAll(PDO::FETCH_ASSOC);
 
+    require __DIR__ . "/../views/header.php";
     echo "<h1>Messages</h1>";
 
     foreach ($messages as $message) {
@@ -187,6 +198,7 @@ if ($path === "/") {
             <button>Log out</button>
         </form>
     ';
+    require __DIR__ . "/../views/footer.php";
 
     exit();
 }
@@ -270,6 +282,7 @@ if (preg_match('#^/messages/(\d+)$#', $path, $matches)) {
     $stmt->execute(["user_id" => $user_id]);
     $messages = $stmt->fetchAll(PDO::FETCH_ASSOC);
 
+    require __DIR__ . "/../views/header.php";
     echo "<h1>Conversation with " .
         htmlspecialchars($user["username"]) .
         "</h1>";
@@ -291,6 +304,7 @@ if (preg_match('#^/messages/(\d+)$#', $path, $matches)) {
 
         <p><a href="/messages">Back</a></p>
     ';
+    require __DIR__ . "/../views/footer.php";
 
     exit();
 }
