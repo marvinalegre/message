@@ -2,6 +2,7 @@
 
 require __DIR__ . "/../src/db.php";
 require __DIR__ . "/../src/auth.php";
+require __DIR__ . "/../src/rate_limit.php";
 
 session_start();
 
@@ -24,6 +25,12 @@ if ($path === "/login" && $_SERVER["REQUEST_METHOD"] === "GET") { ?>
 }
 
 if ($path === "/login" && $_SERVER["REQUEST_METHOD"] === "POST") {
+    if (!rate_limit($db, "login:" . $_SERVER["REMOTE_ADDR"], 5, 60)) {
+        http_response_code(429);
+        echo "Too many requests";
+        exit();
+    }
+
     if (login($db, $_POST["username"], $_POST["password"])) {
         session_regenerate_id(true);
         $_SESSION["user_id"] = $db
