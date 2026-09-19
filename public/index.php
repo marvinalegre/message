@@ -4,6 +4,9 @@ require __DIR__ . "/../src/db.php";
 require __DIR__ . "/../src/auth.php";
 require __DIR__ . "/../src/rate_limit.php";
 
+if (getenv("APP_ENV") === "development") {
+    session_save_path(__DIR__ . "/../data/sessions");
+}
 session_start();
 
 $db = db();
