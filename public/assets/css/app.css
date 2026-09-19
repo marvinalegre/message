@@ -1,0 +1,13 @@
+main {
+  margin: 1rem 0;
+}
+.auth-form {
+  max-width: 400px;
+  margin-bottom: 1.5rem;
+}
+
+@media (min-width: 768px) {
+  main {
+    margin: 3rem 0;
+  }
+}

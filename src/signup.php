@@ -1,12 +1,28 @@
 
 <?php
 if ($_SERVER["REQUEST_METHOD"] === "GET") { ?>
-    <form method="POST">
-        <input name="username" required placeholder="username">
-        <input name="password" type="password" required placeholder="password">
+    <main class="container">
+    <h1>Sign up</h1>
+
+    <form method="POST" class="auth-form">
+      <label>
+        Username
+        <input name="username" required>
+      </label>
+
+      <label>
+        Password
+        <input name="password" type="password" required>
+      </label>
+
         <button>Sign up</button>
     </form>
-    <a href="/login">log in</a>
+
+    <p>
+      Already have an account?
+      <a href="/login">Log in</a>
+    </p>
+    </main>
 <?php exit();
 }
 

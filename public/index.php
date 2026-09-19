@@ -21,16 +21,35 @@ if ($path === "/signup") {
 }
 
 if ($path === "/login" && $_SERVER["REQUEST_METHOD"] === "GET") {
-    require __DIR__ . "/../views/header.php";
-    echo '<form method="POST">
-        <input name="username" required placeholder="username">
-        <input name="password" type="password" required placeholder="password">
+    require __DIR__ . "/../views/header.php"; ?>
+
+    <main class="container">
+    <h1>Log in</h1>
+
+    <form method="POST" class="auth-form">
+      <label>
+        Username
+        <input name="username" required>
+      </label>
+
+      <label>
+        Password
+        <input name="password" type="password" required>
+      </label>
+
         <button>Log in</button>
     </form>
-    <a href="/signup">sign up</a>
-    ';
+
+    <p>
+      Don't have an account?
+      <a href="/signup">Sign up</a>
+    </p>
+    </main>
+
+    <?php
     require __DIR__ . "/../views/footer.php";
     exit();
+
 }
 
 if ($path === "/login" && $_SERVER["REQUEST_METHOD"] === "POST") {
