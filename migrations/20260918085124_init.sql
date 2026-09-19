@@ -18,9 +18,11 @@ CREATE TABLE sessions (
 CREATE TABLE messages (
   id INTEGER PRIMARY KEY AUTOINCREMENT,
   sender_id INTEGER NOT NULL,
+  recipient_id INTEGER NOT NULL,
   body TEXT NOT NULL,
   created_at TEXT NOT NULL DEFAULT (strftime ('%Y-%m-%dT%H:%M:%fZ', 'now')),
-  FOREIGN KEY (sender_id) REFERENCES users (id) ON DELETE CASCADE
+  FOREIGN KEY (sender_id) REFERENCES users (id) ON DELETE CASCADE,
+  FOREIGN KEY (recipient_id) REFERENCES users (id) ON DELETE CASCADE
 );
 
 -- DOWN
