@@ -365,7 +365,7 @@ echo "Not Found";
 
 function script(string $page): string
 {
-    return '<script defer src="/assets/js/' . $page . '.php"></script>';
+    return '<script defer src="/assets/js/' . $page . '.js"></script>';
 }
 
 function view(string $name): void

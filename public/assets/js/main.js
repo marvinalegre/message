@@ -1,27 +1,8 @@
 document.addEventListener("fx:after", (evt) => {
-  const button = document.querySelector("button");
-  button.setAttribute("aria-busy", "false");
-  button.textContent = "Sign up";
-
-  const username = document.querySelector('[name="username"]');
-  username.setAttribute("aria-invalid", "true");
-
   const redirect = evt.detail.cfg.response.headers.get("FX-Redirect");
   if (redirect) {
     window.location.href = redirect;
   }
-});
-
-document.addEventListener("fx:before", () => {
-  const serverMessage = document.querySelector("#server-message");
-  serverMessage.innerHTML = "";
-
-  const username = document.querySelector('[name="username"]');
-  username.setAttribute("aria-invalid", "");
-
-  const button = document.querySelector("button");
-  button.setAttribute("aria-busy", "true");
-  button.textContent = "Signing up...";
 });
 
 // fixi disable elements extension

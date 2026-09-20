@@ -30,7 +30,7 @@ if ($_SERVER["REQUEST_METHOD"] === "POST") {
         exit();
     } catch (PDOException $e) {
         if ($e->getCode() === "23000") {
-            echo '<small id="server-message">Username already exists</small>';
+            echo "Username already exists";
             exit();
         }
 

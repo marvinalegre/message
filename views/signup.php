@@ -5,6 +5,7 @@
     fx-action="/signup"
     fx-method="post"
     fx-target="#server-message"
+    fx-swap="innerHTML"
     class="auth-form"
     ext-fx-disable
   >
