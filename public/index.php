@@ -10,12 +10,12 @@ if (getenv("APP_ENV") === "development") {
 session_start();
 
 $db = db();
-
 $path = parse_url($_SERVER["REQUEST_URI"], PHP_URL_PATH);
+$scripts = "";
 
-if ($path === "/signup") {
-    require __DIR__ . "/../src/signup.php";
-    exit();
+$page = "signup";
+if ($path === "/$page") {
+    load($page);
 }
 
 if ($path === "/login" && $_SERVER["REQUEST_METHOD"] === "GET") {
@@ -362,3 +362,24 @@ if (preg_match('#^/messages/(\d+)$#', $path, $matches)) {
 
 http_response_code(404);
 echo "Not Found";
+
+function script(string $page): string
+{
+    return '<script defer src="/assets/js/' . $page . '.php"></script>';
+}
+
+function view(string $name): void
+{
+    global $scripts;
+    require __DIR__ . "/../views/$name.php";
+}
+
+function load(string $page): never
+{
+    global $scripts;
+    $scripts = script($page);
+
+    require __DIR__ . "/../src/$page.php";
+
+    exit();
+}

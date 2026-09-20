@@ -1,9 +1,10 @@
 <?php
 
 if ($_SERVER["REQUEST_METHOD"] === "GET") {
-    require __DIR__ . "/../views/header.php";
-    require __DIR__ . "/../views/signup.html";
-    require __DIR__ . "/../views/footer.php";
+    view("header");
+    view("signup");
+    view("footer");
+
     exit();
 }
 

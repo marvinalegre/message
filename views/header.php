@@ -1,3 +1,7 @@
+<?php
+/** @var string $scripts */
+?>
+
 <!DOCTYPE html>
 <html lang="en">
 <head>
@@ -13,5 +17,6 @@
 
     <script defer src="/assets/vendor/the-fixi-project/fixi-0.9.4.js"></script>
     <script defer src="/assets/js/app.js"></script>
+    <?= $scripts ?>
 </head>
 <body>
