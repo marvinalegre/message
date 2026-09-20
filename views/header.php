@@ -13,6 +13,7 @@ global $page; ?>
         href="https://cdn.jsdelivr.net/npm/@picocss/pico@2/css/pico.blue.min.css"
     >
     <link rel="stylesheet" href="/assets/css/main.css">
+    <?= css($page) ?>
 
     <script defer src="/assets/vendor/the-fixi-project/fixi-0.9.4.js"></script>
     <script defer src="/assets/js/main.js"></script>

@@ -1,0 +1,23 @@
+.auth-form {
+  max-width: 400px;
+  margin-bottom: 1.5rem;
+}
+
+.password-wrapper {
+  position: relative;
+}
+
+.password-wrapper button {
+  position: absolute;
+  right: 0.5rem;
+  top: 36%;
+  transform: translateY(-50%);
+  padding: 0.25rem;
+  margin: 0;
+  border: 0;
+  background: transparent;
+}
+
+.password-wrapper input {
+  padding-right: 3rem;
+}

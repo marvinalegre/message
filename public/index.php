@@ -367,6 +367,11 @@ function script(string $page): string
     return '<script defer src="/assets/js/' . $page . '.js"></script>';
 }
 
+function css(string $page): string
+{
+    return '<link rel="stylesheet" href="/assets/css/' . $page . '.css">';
+}
+
 function view(string $name): void
 {
     require __DIR__ . "/../views/$name.php";
