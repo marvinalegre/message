@@ -17,64 +17,9 @@ if ($path === "/$page") {
     load($page);
 }
 
-if ($path === "/login" && $_SERVER["REQUEST_METHOD"] === "GET") {
-    require __DIR__ . "/../views/header.php"; ?>
-
-    <main class="container">
-    <h1>Log in</h1>
-
-    <form method="POST" class="auth-form">
-      <label>
-        Username
-        <input name="username" required>
-      </label>
-
-      <label>
-        Password
-        <input name="password" type="password" required>
-      </label>
-
-        <button>Log in</button>
-    </form>
-
-    <p>
-      Don't have an account?
-      <a href="/signup">Sign up</a>
-    </p>
-    </main>
-
-    <?php
-    require __DIR__ . "/../views/footer.php";
-    exit();
-
-}
-
-if ($path === "/login" && $_SERVER["REQUEST_METHOD"] === "POST") {
-    if (!rate_limit($db, "login:" . $_SERVER["REMOTE_ADDR"], 5, 60)) {
-        http_response_code(429);
-        require __DIR__ . "/../views/header.php";
-        echo "Too many requests";
-        require __DIR__ . "/../views/footer.php";
-        exit();
-    }
-
-    if (login($db, $_POST["username"], $_POST["password"])) {
-        session_regenerate_id(true);
-        $_SESSION["user_id"] = $db
-            ->query(
-                "SELECT id FROM users WHERE username = " .
-                    $db->quote($_POST["username"]),
-            )
-            ->fetchColumn();
-
-        header("Location: /");
-        exit();
-    }
-
-    require __DIR__ . "/../views/header.php";
-    echo "Invalid username or password";
-    require __DIR__ . "/../views/footer.php";
-    exit();
+$page = "login";
+if ($path === "/$page") {
+    load($page);
 }
 
 if ($path === "/logout" && $_SERVER["REQUEST_METHOD"] === "POST") {
