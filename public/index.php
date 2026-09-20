@@ -11,7 +11,6 @@ session_start();
 
 $db = db();
 $path = parse_url($_SERVER["REQUEST_URI"], PHP_URL_PATH);
-$scripts = "";
 
 $page = "signup";
 if ($path === "/$page") {
@@ -370,15 +369,11 @@ function script(string $page): string
 
 function view(string $name): void
 {
-    global $scripts;
     require __DIR__ . "/../views/$name.php";
 }
 
 function load(string $page): never
 {
-    global $scripts;
-    $scripts = script($page);
-
     require __DIR__ . "/../src/$page.php";
 
     exit();

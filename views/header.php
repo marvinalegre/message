@@ -1,6 +1,5 @@
 <?php
-/** @var string $scripts */
-?>
+global $page; ?>
 
 <!DOCTYPE html>
 <html lang="en">
@@ -17,6 +16,6 @@
 
     <script defer src="/assets/vendor/the-fixi-project/fixi-0.9.4.js"></script>
     <script defer src="/assets/js/main.js"></script>
-    <?= $scripts ?>
+    <?= script($page) ?>
 </head>
 <body>
