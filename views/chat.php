@@ -9,17 +9,19 @@ global $messages;
     <a href="/messages" role="button" class="secondary">Back</a>
   </header>
 
-  <?php foreach ($messages as $message): ?>
-  <?php $class =
+  <section id="messages">
+    <?php foreach ($messages as $message): ?>
+    <?php $class =
       $message["sender_id"] === $_SESSION["user_id"]
           ? "message mine"
           : "message"; ?>
 
-  <article class="<?= $class ?>">
-    <strong><?= htmlspecialchars($message["username"]) ?></strong>
-    <p><?= htmlspecialchars($message["body"]) ?></p>
-  </article>
-  <?php endforeach; ?>
+    <article class="<?= $class ?>">
+      <strong><?= htmlspecialchars($message["username"]) ?></strong>
+      <p><?= htmlspecialchars($message["body"]) ?></p>
+    </article>
+    <?php endforeach; ?>
+  </section>
 
   <form method="POST">
     <textarea name="body" required></textarea>

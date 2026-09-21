@@ -48,6 +48,10 @@ if (preg_match('#^/messages/(\d+)$#', $path, $matches)) {
     exit();
 }
 
+if ($path === "/messages/poll") {
+    require __DIR__ . "/../src/poll.php";
+}
+
 http_response_code(404);
 echo "Not Found";
 
