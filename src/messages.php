@@ -30,33 +30,9 @@ if ($_SERVER["REQUEST_METHOD"] === "GET") {
 
     $conversations = $stmt->fetchAll(PDO::FETCH_ASSOC);
 
-    require __DIR__ . "/../views/header.php";
-
-    echo "<main class='container'>";
-
-    echo '<header><h1>Messages</h1>
-    <form method="POST" action="/logout">
-        <button class="secondary">Log out</button>
-    </form></header>
-        ';
-
-    foreach ($conversations as $conversation) {
-        echo "<article>";
-        echo '<h3><a href="/messages/' . (int) $conversation["id"] . '">';
-        echo htmlspecialchars($conversation["username"]);
-        echo "</a></h3>";
-        echo "<p>";
-        echo htmlspecialchars($conversation["body"]);
-        echo "</p>";
-        echo "</article>";
-    }
-
-    echo '
-';
-
-    echo "</main>";
-
-    require __DIR__ . "/../views/footer.php";
+    view("header");
+    view("messages");
+    view("footer");
 
     exit();
 }

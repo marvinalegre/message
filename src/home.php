@@ -31,35 +31,8 @@ $stmt->execute([
 
 $messages = $stmt->fetchAll(PDO::FETCH_ASSOC);
 
-require __DIR__ . "/../views/header.php";
-echo "<main class='container'>";
-echo '<header><h1>marvin</h1>
-    <form method="POST" action="/logout">
-        <button class="secondary">Log out</button>
-    </form></header>
-    ';
-
-foreach ($messages as $message) {
-    $class =
-        $message["sender_id"] === $_SESSION["user_id"]
-            ? "message mine"
-            : "message";
-
-    echo "<article class='$class'>";
-    echo "<strong>" . htmlspecialchars($message["username"]) . "</strong>";
-    echo "<p>" . htmlspecialchars($message["body"]) . "</p>";
-    echo "</article>";
-}
-
-echo '
-    <form method="POST" action="/messages">
-        <textarea name="body" required></textarea>
-        <button type="submit">Send</button>
-    </form>
-
-';
-
-echo "</main>";
-require __DIR__ . "/../views/footer.php";
+view("header");
+view("home");
+view("footer");
 
 exit();
