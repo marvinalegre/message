@@ -8,19 +8,29 @@ const eyeOff = toggle.querySelector("svg:last-child");
 eyeOff.style.display = "none";
 
 document.addEventListener("fx:after", () => {
-  button.setAttribute("aria-busy", "false");
+  button.setAttribute("aria-busy", false);
   button.textContent = "Sign up";
 });
 
 document.addEventListener("fx:before", () => {
   serverMessage.innerHTML = "";
 
-  button.setAttribute("aria-busy", "true");
+  button.setAttribute("aria-busy", true);
   button.textContent = "Signing up...";
+});
+
+document.addEventListener("fx:swapped", () => {
+  if (/Invalid/.test(serverMessage.textContent)) {
+    username.setAttribute("aria-invalid", true);
+  }
 });
 
 username.addEventListener("input", () => {
   serverMessage.innerHTML = "";
+
+  if (username.getAttribute("aria-invalid") === "true") {
+    username.setAttribute("aria-invalid", "");
+  }
 });
 
 toggle.addEventListener("click", () => {

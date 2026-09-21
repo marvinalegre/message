@@ -8,14 +8,14 @@ const eyeOff = toggle.querySelector("svg:last-child");
 eyeOff.style.display = "none";
 
 document.addEventListener("fx:after", () => {
-  button.setAttribute("aria-busy", "false");
+  button.setAttribute("aria-busy", false);
   button.textContent = "Log in";
 });
 
 document.addEventListener("fx:before", () => {
   serverMessage.innerHTML = "";
 
-  button.setAttribute("aria-busy", "true");
+  button.setAttribute("aria-busy", true);
   button.textContent = "Logging in...";
 });
 
