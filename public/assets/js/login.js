@@ -9,17 +9,20 @@ eyeOff.style.display = "none";
 
 document.addEventListener("fx:after", () => {
   button.setAttribute("aria-busy", "false");
-  button.textContent = "Sign up";
+  button.textContent = "Log in";
 });
 
 document.addEventListener("fx:before", () => {
   serverMessage.innerHTML = "";
 
   button.setAttribute("aria-busy", "true");
-  button.textContent = "Signing up...";
+  button.textContent = "Logging in...";
 });
 
 username.addEventListener("input", () => {
+  serverMessage.innerHTML = "";
+});
+password.addEventListener("input", () => {
   serverMessage.innerHTML = "";
 });
 

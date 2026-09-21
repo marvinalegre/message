@@ -61,7 +61,7 @@
       </button>
     </div>
 
-    <button ext-fx-disable-target>Sign up</button>
+    <button class="submit-button" ext-fx-disable-target>Sign up</button>
   </form>
 
   <p>

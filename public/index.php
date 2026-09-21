@@ -20,7 +20,6 @@ if ($path === "/$page") {
 $page = "login";
 if ($path === "/$page") {
     require __DIR__ . "/../src/$page.php";
-    exit();
 }
 
 if ($path === "/logout" && $_SERVER["REQUEST_METHOD"] === "POST") {

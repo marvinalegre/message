@@ -27,6 +27,11 @@ if ($_SERVER["REQUEST_METHOD"] === "POST") {
         header("Location: /");
         exit();
     }
-    echo "Invalid username or password";
+
+    echo "Incorrect username or password";
     exit();
 }
+
+http_response_code(405);
+echo "Method Not Allowed";
+exit();
