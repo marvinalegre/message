@@ -24,7 +24,9 @@ if ($_SERVER["REQUEST_METHOD"] === "POST") {
                     $db->quote($_POST["username"]),
             )
             ->fetchColumn();
-        header("Location: /");
+
+        header("FX-Redirect: /");
+        http_response_code(200);
         exit();
     }
 
