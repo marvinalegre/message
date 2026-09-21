@@ -49,40 +49,9 @@ if ($_SERVER["REQUEST_METHOD"] === "GET") {
     $stmt->execute(["user_id" => $user_id]);
     $messages = $stmt->fetchAll(PDO::FETCH_ASSOC);
 
-    require __DIR__ . "/../views/header.php";
-
-    echo "<main class='container'>";
-
-    echo '
-<header>
-    <h1>' .
-        htmlspecialchars($user["username"]) .
-        '</h1>
-    <a href="/messages" role="button" class="secondary">Back</a>
-</header>
-';
-
-    foreach ($messages as $message) {
-        $class =
-            $message["sender_id"] === $_SESSION["user_id"]
-                ? "message mine"
-                : "message";
-
-        echo "<article class='$class'>";
-        echo "<strong>" . htmlspecialchars($message["username"]) . "</strong>";
-        echo "<p>" . htmlspecialchars($message["body"]) . "</p>";
-        echo "</article>";
-    }
-
-    echo '
-    <form method="POST">
-        <textarea name="body" required></textarea>
-        <button type="submit">Send</button>
-    </form>';
-
-    echo "</main>";
-
-    require __DIR__ . "/../views/footer.php";
+    view("header");
+    view("chat");
+    view("footer");
 
     exit();
 }
