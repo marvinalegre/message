@@ -33,7 +33,7 @@ $messages = $stmt->fetchAll(PDO::FETCH_ASSOC);
 
 require __DIR__ . "/../views/header.php";
 echo "<main class='container'>";
-echo '<header><h1>Messages</h1>
+echo '<header><h1>marvin</h1>
     <form method="POST" action="/logout">
         <button class="secondary">Log out</button>
     </form></header>

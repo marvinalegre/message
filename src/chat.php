@@ -55,7 +55,7 @@ if ($_SERVER["REQUEST_METHOD"] === "GET") {
 
     echo '
 <header>
-    <h1>Conversation with ' .
+    <h1>' .
         htmlspecialchars($user["username"]) .
         '</h1>
     <a href="/messages" role="button" class="secondary">Back</a>
