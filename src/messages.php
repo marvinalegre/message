@@ -1,4 +1,5 @@
 <?php
+/** @var PDO $db */
 
 require_auth();
 
@@ -8,7 +9,6 @@ if ($_SERVER["REQUEST_METHOD"] === "GET") {
         exit();
     }
 
-    $db = db();
     $stmt = $db->query("
         SELECT
             u.id,
@@ -76,7 +76,6 @@ if ($_SERVER["REQUEST_METHOD"] === "POST") {
         exit("Message cannot be empty.");
     }
 
-    $db = db();
     $stmt = $db->prepare("
         INSERT INTO messages (sender_id, recipient_id, body)
         VALUES (:sender_id, 1, :body)

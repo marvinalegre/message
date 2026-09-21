@@ -1,4 +1,5 @@
 <?php
+/** @var PDO $db */
 
 if ($_SERVER["REQUEST_METHOD"] === "GET") {
     view("header");
@@ -9,8 +10,6 @@ if ($_SERVER["REQUEST_METHOD"] === "GET") {
 }
 
 if ($_SERVER["REQUEST_METHOD"] === "POST") {
-    $db = db();
-
     if (!rate_limit($db, "login:" . $_SERVER["REMOTE_ADDR"], 5, 60)) {
         http_response_code(429);
         echo "Too many requests";

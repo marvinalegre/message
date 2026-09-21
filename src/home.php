@@ -1,4 +1,5 @@
 <?php
+/** @var PDO $db */
 
 require_auth();
 
@@ -9,7 +10,6 @@ if ($user_id === 1) {
     exit();
 }
 
-$db = db();
 $stmt = $db->prepare("
         SELECT
             m.body,

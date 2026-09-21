@@ -1,4 +1,5 @@
 <?php
+/** @var PDO $db */
 
 if ($_SERVER["REQUEST_METHOD"] === "GET") {
     view("header");
@@ -17,7 +18,6 @@ if ($_SERVER["REQUEST_METHOD"] === "POST") {
         exit();
     }
 
-    $db = db();
     $stmt = $db->prepare(
         "INSERT INTO users (username, password_hash) VALUES (?, ?)",
     );
