@@ -38,3 +38,11 @@ function require_auth()
         exit();
     }
 }
+
+function guestOnly(): void
+{
+    if (isset($_SESSION["user_id"])) {
+        header("Location: /");
+        exit();
+    }
+}

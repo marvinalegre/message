@@ -2,6 +2,8 @@
 /** @var PDO $db */
 
 if ($_SERVER["REQUEST_METHOD"] === "GET") {
+    guestOnly();
+
     view("header");
     view("signup");
     view("footer");
