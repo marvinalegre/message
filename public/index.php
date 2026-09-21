@@ -14,12 +14,14 @@ $path = parse_url($_SERVER["REQUEST_URI"], PHP_URL_PATH);
 
 $page = "signup";
 if ($path === "/$page") {
-    load($page);
+    require __DIR__ . "/../src/$page.php";
+    exit();
 }
 
 $page = "login";
 if ($path === "/$page") {
-    load($page);
+    require __DIR__ . "/../src/$page.php";
+    exit();
 }
 
 if ($path === "/logout" && $_SERVER["REQUEST_METHOD"] === "POST") {
@@ -30,19 +32,19 @@ if ($path === "/logout" && $_SERVER["REQUEST_METHOD"] === "POST") {
     exit();
 }
 
-$page = 'messages';
+$page = "messages";
 if ($path === "/$page") {
     require __DIR__ . "/../src/$page.php";
     exit();
 }
 
-$page = 'home';
+$page = "home";
 if ($path === "/") {
     require __DIR__ . "/../src/$page.php";
     exit();
 }
 
-$page = 'chat';
+$page = "chat";
 if (preg_match('#^/messages/(\d+)$#', $path, $matches)) {
     require __DIR__ . "/../src/$page.php";
     exit();
@@ -64,11 +66,4 @@ function css(string $page): string
 function view(string $name): void
 {
     require __DIR__ . "/../views/$name.php";
-}
-
-function load(string $page): never
-{
-    require __DIR__ . "/../src/$page.php";
-
-    exit();
 }
