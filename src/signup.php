@@ -13,8 +13,14 @@ if ($_SERVER["REQUEST_METHOD"] === "POST") {
     $username = trim($_POST["username"] ?? "");
     $password = $_POST["password"] ?? "";
 
+    /* TODO: ask for a stronger password */
     if ($username === "" || $password === "") {
         echo "Username and password are required";
+        exit();
+    }
+
+    if (!validUsername($username)) {
+        echo "Invalid username";
         exit();
     }
 
@@ -34,9 +40,16 @@ if ($_SERVER["REQUEST_METHOD"] === "POST") {
             exit();
         }
 
+        /* TODO: catch this */
         throw $e;
     }
 }
 
 http_response_code(405);
 echo "Method Not Allowed";
+exit();
+
+function validUsername(string $username): bool
+{
+    return preg_match('/^[a-zA-Z0-9_]{3,20}$/', $username) === 1;
+}

@@ -15,7 +15,6 @@ $path = parse_url($_SERVER["REQUEST_URI"], PHP_URL_PATH);
 $page = "signup";
 if ($path === "/$page") {
     require __DIR__ . "/../src/$page.php";
-    exit();
 }
 
 $page = "login";
