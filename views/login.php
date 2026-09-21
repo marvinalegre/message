@@ -2,15 +2,11 @@
   <h1>Log in</h1>
 
   <form method="POST" class="auth-form">
-    <label>
-      Username
-      <input name="username" required />
-    </label>
+    <label for="username"> Username </label>
+    <input id="username" name="username" required />
 
-    <label>
-      Password
-      <input name="password" type="password" required />
-    </label>
+    <label for="password"> Password </label>
+    <input id="password" name="password" type="password" required />
 
     <button>Log in</button>
   </form>
